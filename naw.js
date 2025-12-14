@@ -6,6 +6,12 @@
     var button3 = document.getElementById("button3");
     var button4 = document.getElementById("button4");
     var button5 = document.getElementById("button5");
+    var menu4 = document.getElementById("menu4");
+    var button6 = document.getElementById("button6");
+
+var hasKey = false;
+var win = false;
+
     var clickSound= new Audio;
     var clickSound1= new Audio;
 
@@ -45,27 +51,72 @@
         TimerGame = setInterval(repeatForewer,10);
         canlock= true;
     };
+button6.onclick = function(){
+    clickSound.play();
+
+    menu4.style.display = "none";
+    menu1.style.display = "block";
+
+    // сброс состояния
+    hasKey = false;
+    win = false;
+
+    world.innerHTML = "";
+};
+
 
     function iteration(squares, string){
+    for(let i = 0; i < squares.length; i++){
+        let r =
+            (squares[i][0] - pawn.x) ** 2 +
+            (squares[i][1] - pawn.y) ** 2 +
+            (squares[i][2] - pawn.z) ** 2;
 
-        for( let i=0; i< squares.length; i++){
-            let r = (squares[i][0]- pawn.x)**2 +
-            (squares[i][1]- pawn.y)**2 +
-            (squares[i][2]- pawn.z)**2 ;
-        let r1 =squares[i][6]**2;
-        if (r<r1){
+        let r1 = squares[i][6] ** 2;
+
+        if (r < r1){
             clickSound1.play();
+            document.getElementById(string + i).style.display = "none";
 
-            document.getElementById(string+i).style.display ="none";
-            squares[i][0]= 100000;
-            squares[i][1]= 100000;
-            squares[i][2]= 100000;
-        }
+            squares[i][0] = 100000;
+            squares[i][1] = 100000;
+            squares[i][2] = 100000;
+
+            // ⬇️ ВАЖНО: если это ключ — отмечаем
+            if (string === "key") {
+                hasKey = true;
+            }
         }
     }
+}
+
+function checkDoorWin(){
+    if (!hasKey || win) return;
+
+    // координаты главной двери (первая door в map)
+    let doorX = 0;
+    let doorY = 0;
+    let doorZ = -1000;
+
+    let dist =
+        (doorX - pawn.x) ** 2 +
+        (doorY - pawn.y) ** 2 +
+        (doorZ - pawn.z) ** 2;
+
+    if (dist < 200 * 200) {
+        win = true;
+        clearInterval(TimerGame);
+        document.exitPointerLock();
+
+        menu4.style.display = "block";
+    }
+}
+
 
     function repeatForewer(){
         update();
         iteration(coins,"coin");
         iteration(key,"key");
+        checkDoorWin();
+
     }
