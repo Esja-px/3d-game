@@ -11,7 +11,6 @@
 
 var hasKey = false;
 var win = false;
-
     var clickSound= new Audio;
     var clickSound1= new Audio;
 
@@ -51,7 +50,7 @@ var win = false;
         TimerGame = setInterval(repeatForewer,10);
         canlock= true;
     };
-button6.onclick = function(){
+    button6.onclick = function(){
     clickSound.play();
 
     menu4.style.display = "none";
@@ -66,7 +65,7 @@ button6.onclick = function(){
 
 
     function iteration(squares, string){
-    for(let i = 0; i < squares.length; i++){
+    for(let i=0; i < squares.length; i++){
         let r =
             (squares[i][0] - pawn.x) ** 2 +
             (squares[i][1] - pawn.y) ** 2 +
@@ -82,21 +81,19 @@ button6.onclick = function(){
             squares[i][1] = 100000;
             squares[i][2] = 100000;
 
-            // ⬇️ ВАЖНО: если это ключ — отмечаем
             if (string === "key") {
                 hasKey = true;
             }
         }
     }
 }
-
 function checkDoorWin(){
     if (!hasKey || win) return;
 
     // координаты главной двери (первая door в map)
     let doorX = 0;
     let doorY = 0;
-    let doorZ = -1000;
+    let doorZ = -1100;
 
     let dist =
         (doorX - pawn.x) ** 2 +
@@ -114,9 +111,8 @@ function checkDoorWin(){
 
 
     function repeatForewer(){
-        update();
-        iteration(coins,"coin");
-        iteration(key,"key");
-        checkDoorWin();
-
-    }
+    update();
+    iteration(coins,"coin");
+    iteration(key,"key");
+    checkDoorWin();
+}
