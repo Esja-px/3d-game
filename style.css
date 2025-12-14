@@ -60,6 +60,11 @@
     left: 150px;
 }
 
+#button6{
+    top: 500px;
+    left: 150px;
+}
+
 p{
     position: absolute;
     font-size: 100px;
@@ -69,3 +74,4 @@ p{
     transform: translate(-50%, -50%);
     font-family: "Cormorant Garamond", serif;
 }
+
